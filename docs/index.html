@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vitrine de codage securise - OWASP Top 10</title>
+  <style>
+    :root { color-scheme: light dark; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: #0f172a; color: #e2e8f0; line-height: 1.5;
+    }
+    header { padding: 2.5rem 1.5rem 1.5rem; max-width: 1100px; margin: 0 auto; }
+    h1 { margin: 0 0 .4rem; font-size: 1.8rem; }
+    .sous-titre { color: #94a3b8; margin: 0 0 1rem; }
+    .bandeau {
+      display: inline-block; background: #064e3b; color: #6ee7b7;
+      padding: .4rem .9rem; border-radius: 999px; font-weight: 600; font-size: .9rem;
+    }
+    main { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem 3rem; }
+    .table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid #1e293b; }
+    table { border-collapse: collapse; width: 100%; min-width: 820px; background: #111827; }
+    th, td { padding: .75rem .9rem; text-align: left; border-bottom: 1px solid #1e293b; vertical-align: top; font-size: .92rem; }
+    th { background: #1e293b; color: #cbd5e1; position: sticky; top: 0; font-weight: 600; }
+    .titre { font-weight: 600; color: #f1f5f9; }
+    .tag { background: #312e81; color: #c7d2fe; padding: .15rem .5rem; border-radius: 6px; font-size: .78rem; font-weight: 600; }
+    code { background: #0b1220; padding: .15rem .4rem; border-radius: 5px; font-size: .82rem; color: #a5b4fc; }
+    .statut { padding: .2rem .6rem; border-radius: 999px; font-size: .78rem; font-weight: 700; }
+    .statut.ok { background: #064e3b; color: #6ee7b7; }
+    .statut.ko { background: #7f1d1d; color: #fecaca; }
+    footer { max-width: 1100px; margin: 0 auto; padding: 1.5rem; color: #64748b; font-size: .85rem; }
+    @media (prefers-color-scheme: light) {
+      body { background: #f8fafc; color: #0f172a; }
+      table { background: #fff; }
+      th { background: #e2e8f0; color: #334155; }
+      .table-wrap { border-color: #e2e8f0; }
+      th, td { border-color: #e2e8f0; }
+      .titre { color: #0f172a; }
+      code { background: #f1f5f9; color: #4338ca; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Vitrine de codage securise - OWASP Top 10</h1>
+    <p class="sous-titre">9 risques demontres, chacun avec une version vulnerable, une version securisee et un test automatise qui prouve la mitigation.</p>
+    <span class="bandeau">Tous les tests sont au vert</span>
+  </header>
+  <main>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>OWASP</th>
+            <th>Risque</th>
+            <th>Attaque demontree</th>
+            <th>Mitigation</th>
+            <th>Test</th>
+            <th>Statut</th>
+          </tr>
+        </thead>
+        <tbody>
+      <tr>
+        <td><span class="tag">A03</span></td>
+        <td class="titre">Injection SQL</td>
+        <td>Charge utile &#x27; OR &#x27;1&#x27;=&#x27;1 dans un champ concatene a la requete</td>
+        <td>Requete parametree avec liaison des valeurs</td>
+        <td><code>test_sql_injection.py</code></td>
+        <td><span class="statut ok">reussi</span></td>
+      </tr>
+      <tr>
+        <td><span class="tag">A03</span></td>
+        <td class="titre">Cross-Site Scripting (XSS)</td>
+        <td>Injection d&#x27;une balise &lt;script&gt; dans un contenu reflete</td>
+        <td>Echappement HTML de la sortie et en-tete Content-Security-Policy</td>
+        <td><code>test_xss.py</code></td>
+        <td><span class="statut ok">reussi</span></td>
+      </tr>
+      <tr>
+        <td><span class="tag">A01</span></td>
+        <td class="titre">CSRF</td>
+        <td>Requete d&#x27;etat sans jeton depuis un site tiers</td>
+        <td>Jeton anti-CSRF signe, lie a la session et verifie</td>
+        <td><code>test_csrf.py</code></td>
+        <td><span class="statut ok">reussi</span></td>
+      </tr>
+      <tr>
+        <td><span class="tag">A07</span></td>
+        <td class="titre">Authentification</td>
+        <td>Mots de passe en clair et comparaison faible</td>
+        <td>Hachage PBKDF2 avec sel et politique de robustesse</td>
+        <td><code>test_authentification.py</code></td>
+        <td><span class="statut ok">reussi</span></td>
+      </tr>
+      <tr>
+        <td><span class="tag">A01</span></td>
+        <td class="titre">Controle d&#x27;acces (IDOR)</td>
+        <td>Acces au document d&#x27;un autre utilisateur via son identifiant</td>
+        <td>Verification de propriete avant restitution de la ressource</td>
+        <td><code>test_controle_acces.py</code></td>
+        <td><span class="statut ok">reussi</span></td>
+      </tr>
+      <tr>
+        <td><span class="tag">A05</span></td>
+        <td class="titre">En-tetes de securite</td>
+        <td>Absence de HSTS, CSP et X-Content-Type-Options</td>
+        <td>Intergiciel appliquant les en-tetes de securite a chaque reponse</td>
+        <td><code>test_entetes_securite.py</code></td>
+        <td><span class="statut ok">reussi</span></td>
+      </tr>
+      <tr>
+        <td><span class="tag">A07</span></td>
+        <td class="titre">Limitation de debit (force brute)</td>
+        <td>Essais de connexion illimites sur un compte</td>
+        <td>Compteur de tentatives avec blocage temporaire par identifiant</td>
+        <td><code>test_rate_limit.py</code></td>
+        <td><span class="statut ok">reussi</span></td>
+      </tr>
+      <tr>
+        <td><span class="tag">A05</span></td>
+        <td class="titre">Gestion des secrets</td>
+        <td>Secret d&#x27;API code en dur dans le source</td>
+        <td>Chargement du secret depuis l&#x27;environnement, erreur si absent</td>
+        <td><code>test_secrets.py</code></td>
+        <td><span class="statut ok">reussi</span></td>
+      </tr>
+      <tr>
+        <td><span class="tag">A04</span></td>
+        <td class="titre">Upload de fichier</td>
+        <td>Depot d&#x27;un fichier .php ou surdimensionne sans controle</td>
+        <td>Validation du type MIME, de l&#x27;extension et de la taille</td>
+        <td><code>test_upload.py</code></td>
+        <td><span class="statut ok">reussi</span></td>
+      </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+  <footer>
+    Page generee le 2026-11-17. Chaque statut provient de l'execution reelle de la suite pytest correspondante.
+  </footer>
+</body>
+</html>

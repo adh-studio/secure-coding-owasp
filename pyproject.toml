@@ -1,0 +1,20 @@
+[project]
+name = "secure-coding-owasp"
+version = "1.0.0"
+description = "Vitrine de codage securise basee sur l'OWASP Top 10 (demonstrations vulnerable vs securise avec tests)"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi",
+    "uvicorn[standard]",
+    "httpx",
+    "python-multipart",
+]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[tool.pytest.ini_options]
+# La racine du projet est ajoutee au PYTHONPATH pour importer le paquet app.
+pythonpath = ["."]
+testpaths = ["tests"]
+addopts = "-q"
